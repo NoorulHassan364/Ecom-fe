@@ -1,0 +1,58 @@
+.shopCards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2rem 1rem;
+    padding: 3rem;
+}
+.innerTextProductMain {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+.innerTextProduct {
+    display: flex;
+    flex-direction: column;
+}
+.innerTextProductTitle {
+    color: gray;
+    margin-bottom: 0.3rem;
+}
+
+.getInTouch {
+    background: url("../../assets//images/getInTouchImg.jpg");
+    // background: url("https://gcuf.edu.pk/pages_data/campuses/old-campus/0001%20(14).jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    // z-index: 0;
+    height: 35rem;
+    color: white;
+}
+
+.getIntouchPhone {
+    margin-top: 7rem;
+    display: flex;
+    width: 36rem;
+    justify-content: space-between;
+}
+
+.getInTouchMain {
+    padding: 8rem;
+}
+
+@media (max-width: 720px) {
+    .getIntouchPhone {
+        margin-top: 0rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .getInTouchMain {
+        padding: 5rem;
+    }
+}
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(1.1); }
