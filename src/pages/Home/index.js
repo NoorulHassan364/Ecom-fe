@@ -10,8 +10,10 @@ import fb from "../../assets/images/fb.png";
 import insta from "../../assets/images/insta.jfif";
 import twitter from "../../assets/images/twitter.png";
 import Footer from "../../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="shopCards">
@@ -58,8 +60,8 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
-                          // onClick={() => handleShop(el)}
                         />
                       </span>
                     </div>
@@ -71,7 +73,7 @@ const HomePage = () => {
         </div>
 
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/f808d0b9e7e1c67e8886c66de6cd35da.jpg"
@@ -113,8 +115,9 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
-                          // onClick={() => handleShop(el)}
+                          onClick={() => navigate(`/product/${25}`)}
                         />
                       </span>
                     </div>
@@ -125,7 +128,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/77dea86b3211318840d2575cb2fb1983.jpg"
@@ -167,6 +170,7 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
                           // onClick={() => handleShop(el)}
                         />
@@ -179,7 +183,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/4ea4160d4bfcfc627bb89e58088a64de.png"
@@ -221,6 +225,7 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
                           // onClick={() => handleShop(el)}
                         />
@@ -233,7 +238,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/2c9f1114a95da10341c0f963f3b1ffb3.jpg"
@@ -275,6 +280,7 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
                           // onClick={() => handleShop(el)}
                         />
@@ -287,7 +293,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/971d23f32645f6f42de9b0eea058f02f.png"
@@ -329,6 +335,7 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
                           // onClick={() => handleShop(el)}
                         />
@@ -341,7 +348,7 @@ const HomePage = () => {
           </div>
         </div>
         <div style={{ position: "relative", display: "flex" }}>
-          <div className="product_card card" style={{ width: "19rem" }}>
+          <div className="product_card card grow" style={{ width: "19rem" }}>
             <img
               className="card-img-top"
               src="https://static-01.daraz.pk/p/7e95a47a9f7911c46328a1f7d4505e4b.jpg"
@@ -381,6 +388,7 @@ const HomePage = () => {
                       <span>
                         <FontAwesomeIcon
                           icon={faArrowRight}
+                          onClick={() => navigate(`/product/${24}`)}
                           style={{ color: "green", fontSize: "1.6rem" }}
                           // onClick={() => handleShop(el)}
                         />

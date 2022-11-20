@@ -10,6 +10,7 @@ import {
   ProtectedLandingPage,
 } from "./protectedAuthRoutes";
 import Logout from "./../pages/logout/logout";
+import ProductDetail from "../pages/productDetail/productDetail";
 export default function AppRoutes() {
   return (
     <React.Suspense fallback="Loading...">
@@ -50,6 +51,15 @@ export default function AppRoutes() {
             <ProtectedAuthRoute>
               <SignUp />
             </ProtectedAuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/product/:id"
+          element={
+            <ProtectedLandingPage>
+              <ProductDetail />
+            </ProtectedLandingPage>
           }
         />
       </Routes>

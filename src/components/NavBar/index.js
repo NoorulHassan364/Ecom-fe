@@ -22,9 +22,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import logoBranding from "../../assets/images/logo.jpg";
 import userIcon from "../../assets/images/userIcon.png";
+import { CartContext } from "../../contexts/cart";
 
 const NavBar = ({ user }) => {
   const { isLogin, signOut } = useContext(AuthContext);
+  const { total } = useContext(CartContext);
+
   const [currUser, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -72,11 +75,15 @@ const NavBar = ({ user }) => {
                   >
                     <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                   </NavDropdown>
-
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                    style={{ marginRight: "3rem" }}
-                  />
+                  <div style={{ marginRight: "3rem", display: "flex" }}>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faCartShopping}
+                        style={{ fontSize: "1.5rem" }}
+                      />
+                    </div>
+                    <p className="cartTotal">{total}</p>
+                  </div>
                 </>
               ) : (
                 <div className="nav_btns">
