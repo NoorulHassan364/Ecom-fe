@@ -9,33 +9,70 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarSharp } from "@fortawesome/sharp-solid-svg-icons";
 import React from "react";
 import { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api";
 import usericon from "../../assets/images/userIcon.png";
 import { CartContext } from "../../contexts/cart";
 
 const ProductDetail = () => {
   const [total, setTotal] = useState(0);
+  const [product, setProduct] = useState(null);
+  const [similarProdcts, setSimilarProdcts] = useState(null);
+  const [review, setReview] = useState("");
   const { setCartItems } = useContext(CartContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
+  const getProduct = async () => {
+    try {
+      let res = await api.get(`/admin/product/${id}`);
+      setProduct(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getSimilarProducts = async () => {
+    try {
+      let res = await api.get(`/admin/product/?category=${product?.category}`);
+      setSimilarProdcts(
+        res.data.data?.filter((el) => el?._id !== product?._id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReview = async () => {
+    try {
+      await api.post(`/review/${product?._id}`, { review });
+      setReview("");
+      getProduct();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [id]);
+
+  useEffect(() => {
+    getSimilarProducts();
+  }, [product, id]);
   return (
     <Container>
       <Row style={{ padding: "2rem" }}>
         <Col md={6} sm={12}>
-          <img
-            className="img-fluid"
-            src="https://static-01.daraz.pk/p/99ddf081c1731e8ec3b7e695a277ca06.jpg"
-            alt="imgg"
-          />
+          <img className="img-fluid" src={product?.image} alt="imgg" />
         </Col>
         <Col md={6} sm={12} style={{ padding: "2rem 2rem" }}>
-          <h3 style={{ fontFamily: "monospace" }}>
-            Flow Blue Fashion Running Sneakers for Men
-          </h3>
-          <p style={{ color: "brown" }}>(45) Ratings</p>
-          <h2 style={{ marginTop: "2rem" }}>$400</h2>
+          <h3 style={{ fontFamily: "monospace" }}>{product?.name}</h3>
+          <p style={{ color: "brown" }}>({product?.reviews?.length}) Ratings</p>
+          <h2 style={{ marginTop: "2rem" }}>${product?.price}</h2>
           <div style={{ display: "flex", marginTop: "2rem" }}>
             <p style={{ marginRight: "2rem" }}>Quantity:</p>
             <div
@@ -78,36 +115,15 @@ const ProductDetail = () => {
 
       <div style={{ padding: "5rem" }}>
         <h4>Reviews:</h4>
-        <h5 style={{ display: "flex", marginTop: "2rem" }}>
-          <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
-          <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>
-            This product so amazing ❤👍
-          </p>
-        </h5>
-        <h5 style={{ display: "flex", marginTop: "1rem" }}>
-          <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
-          <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>
-            This product so amazing ❤👍
-          </p>
-        </h5>
-        <h5 style={{ display: "flex", marginTop: "1rem" }}>
-          <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
-          <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>
-            This product so amazing ❤👍
-          </p>
-        </h5>
-        <h5 style={{ display: "flex", marginTop: "1rem" }}>
-          <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
-          <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>
-            This product so amazing ❤👍
-          </p>
-        </h5>
-        <h5 style={{ display: "flex", marginTop: "1rem" }}>
-          <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
-          <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>
-            This product so amazing ❤👍
-          </p>
-        </h5>
+        {product?.reviews?.map((el) => {
+          debugger;
+          return (
+            <h5 style={{ display: "flex", marginTop: "2rem" }}>
+              <img src={usericon} alt="imgg" style={{ width: "2rem" }} />
+              <p style={{ marginLeft: "1rem", fontFamily: "cursive" }}>{el}</p>
+            </h5>
+          );
+        })}
 
         <div class="form-group mt-5" style={{ width: "41rem" }}>
           <label for="exampleFormControlTextarea1">Write a Review</label>
@@ -115,9 +131,13 @@ const ProductDetail = () => {
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="4"
-          ></textarea>
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          />
 
-          <Button style={{ marginTop: "1rem" }}>Submit</Button>
+          <Button style={{ marginTop: "1rem" }} onClick={() => handleReview()}>
+            Submit
+          </Button>
         </div>
       </div>
 
@@ -126,377 +146,65 @@ const ProductDetail = () => {
           Similar Products
         </h4>
         <div className="shopCards">
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/99ddf081c1731e8ec3b7e695a277ca06.jpg"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Flow Blue Fashion Running Sneakers for Men</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                          />
-                        </span>
-                      </div>
+          {similarProdcts?.map((el) => {
+            return (
+              <div style={{ position: "relative", display: "flex" }}>
+                <div
+                  className="product_card card grow"
+                  style={{ width: "15rem" }}
+                >
+                  <img
+                    className="card-img-top"
+                    src={el?.image}
+                    style={{ width: "100%", height: "15rem" }}
+                    alt="immg"
+                  />
+                  <div className="card-body">
+                    <div>
+                      <h6 style={{ fontSize: "1.2rem" }}>{el?.name}</h6>
+                      <p className="card-text">
+                        <div className="innerTextProductMain">
+                          <div className="innerTextProduct">
+                            <span className="innerTextProductTitle">
+                              <FontAwesomeIcon
+                                icon={faTag}
+                                style={{ color: "brown" }}
+                              />
+                            </span>
+                            <span>${el?.price}</span>
+                          </div>
+                          <div className="innerTextProduct">
+                            <span className="innerTextProductTitle">
+                              <FontAwesomeIcon
+                                icon={faStarSharp}
+                                style={{ color: "blue" }}
+                              />
+                            </span>
+                            <span>{el?.reviews?.length}</span>
+                          </div>
+                          <div className="innerTextProduct">
+                            <span className="innerTextProductTitle">
+                              <FontAwesomeIcon
+                                icon={faCartShopping}
+                                style={{ color: "darkorange" }}
+                              />
+                            </span>
+                            <span>
+                              <FontAwesomeIcon
+                                icon={faArrowRight}
+                                onClick={() => navigate(`/product/${el?._id}`)}
+                                style={{ color: "green", fontSize: "1.6rem" }}
+                              />
+                            </span>
+                          </div>
+                        </div>
+                      </p>
                     </div>
-                  </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/f808d0b9e7e1c67e8886c66de6cd35da.jpg"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Bata - Sneakers for Women</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            onClick={() => navigate(`/product/${25}`)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/77dea86b3211318840d2575cb2fb1983.jpg"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Formal Shirt For Men and Boys</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            // onClick={() => handleShop(el)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/4ea4160d4bfcfc627bb89e58088a64de.png"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Mendeez Ore V-Neck T-Shir</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            // onClick={() => handleShop(el)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/2c9f1114a95da10341c0f963f3b1ffb3.jpg"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Movado Wrist Watch For Men</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            // onClick={() => handleShop(el)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/971d23f32645f6f42de9b0eea058f02f.png"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>Stainless Steel Wrist Watch for Men</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            // onClick={() => handleShop(el)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ position: "relative", display: "flex" }}>
-            <div className="product_card card grow" style={{ width: "15rem" }}>
-              <img
-                className="card-img-top"
-                src="https://static-01.daraz.pk/p/7e95a47a9f7911c46328a1f7d4505e4b.jpg"
-                style={{ width: "100%", height: "15rem" }}
-                alt="immg"
-              />
-              <div className="card-body">
-                <div>
-                  <h6>BTS Caps for Men Stylish</h6>
-                  <p className="card-text">
-                    <div className="innerTextProductMain">
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: "brown" }}
-                          />
-                        </span>
-                        <span>$400</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faStarSharp}
-                            style={{ color: "blue" }}
-                          />
-                        </span>
-                        <span>250</span>
-                      </div>
-                      <div className="innerTextProduct">
-                        <span className="innerTextProductTitle">
-                          <FontAwesomeIcon
-                            icon={faCartShopping}
-                            style={{ color: "darkorange" }}
-                          />
-                        </span>
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faArrowRight}
-                            onClick={() => navigate(`/product/${24}`)}
-                            style={{ color: "green", fontSize: "1.6rem" }}
-                            // onClick={() => handleShop(el)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </Container>

@@ -8,7 +8,9 @@ import {
   ProtectedAuthRoute,
   ProtectedRoute,
   ProtectedLandingPage,
+  ProtectedAdminRoute,
 } from "./protectedAuthRoutes";
+import AdminRoutes from "./adminRoutes";
 import Logout from "./../pages/logout/logout";
 import ProductDetail from "../pages/productDetail/productDetail";
 export default function AppRoutes() {
@@ -60,6 +62,15 @@ export default function AppRoutes() {
             <ProtectedLandingPage>
               <ProductDetail />
             </ProtectedLandingPage>
+          }
+        />
+        <Route
+          exact
+          path="/admin/*"
+          element={
+            <ProtectedAdminRoute>
+              <AdminRoutes />
+            </ProtectedAdminRoute>
           }
         />
       </Routes>

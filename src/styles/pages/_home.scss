@@ -67,5 +67,19 @@
     text-align: center;
 }
 
+.collegeFavourite {
+    position: absolute;
+    height: 3rem;
+    background-color: white;
+    width: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 10px;
+    top: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
 .grow { transition: all .2s ease-in-out; }
 .grow:hover { transform: scale(1.1); }

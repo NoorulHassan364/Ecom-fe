@@ -22,7 +22,21 @@ function ProtectedLandingPage({ children }) {
   if (!user || user.userType == "user") {
     return children;
   }
-  return <Navigate to="/admin/stats" replace />;
+  return <Navigate to="/admin/addProduct" replace />;
 }
 
-export { ProtectedAuthRoute, ProtectedRoute, ProtectedLandingPage };
+function ProtectedAdminRoute({ children }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user?.userType == "admin") {
+    return children;
+  } else {
+    return <Navigate to="/" replace />;
+  }
+}
+
+export {
+  ProtectedAuthRoute,
+  ProtectedRoute,
+  ProtectedLandingPage,
+  ProtectedAdminRoute,
+};

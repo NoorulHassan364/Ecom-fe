@@ -39,7 +39,8 @@ const Index = () => {
         // navigate("/");
         window.location = "/";
       } else {
-        navigate("/admin/stats");
+        // navigate("/admin/addProduct");
+        window.location = "/admin/addProduct";
       }
     } catch (err) {
       toast("Invalid Email or Password!");
