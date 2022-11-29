@@ -25,6 +25,14 @@ function ProtectedLandingPage({ children }) {
   return <Navigate to="/admin/addProduct" replace />;
 }
 
+function PublicRoute({ children }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    return children;
+  }
+  return <Navigate to="/products" replace />;
+}
+
 function ProtectedAdminRoute({ children }) {
   const user = JSON.parse(localStorage.getItem("user"));
   if (user?.userType == "admin") {
@@ -39,4 +47,5 @@ export {
   ProtectedRoute,
   ProtectedLandingPage,
   ProtectedAdminRoute,
+  PublicRoute,
 };

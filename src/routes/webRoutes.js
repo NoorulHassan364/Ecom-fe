@@ -9,10 +9,12 @@ import {
   ProtectedRoute,
   ProtectedLandingPage,
   ProtectedAdminRoute,
+  PublicRoute,
 } from "./protectedAuthRoutes";
 import AdminRoutes from "./adminRoutes";
 import Logout from "./../pages/logout/logout";
 import ProductDetail from "../pages/productDetail/productDetail";
+import LandingPage from "../pages/landingPage";
 export default function AppRoutes() {
   return (
     <React.Suspense fallback="Loading...">
@@ -21,6 +23,15 @@ export default function AppRoutes() {
         <Route
           exact
           path="/"
+          element={
+            <PublicRoute>
+              <LandingPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          exact
+          path="/products"
           element={
             <ProtectedLandingPage>
               <HomePage />

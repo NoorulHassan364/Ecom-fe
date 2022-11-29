@@ -48,6 +48,19 @@ const AddProduct = () => {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      let res = await api.get(`/admin/category`);
+      setCategories(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <div className="container-fluid shadow college_container">
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -111,11 +124,9 @@ const AddProduct = () => {
                     <option value="" disabled>
                       CHOOSE
                     </option>
-                    <option value="cloths">Cloths</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="watches">Watches</option>
-                    <option value="bags">Bags</option>
-                    <option value="accessories">Accessories</option>
+                    {categories?.map((el) => {
+                      return <option value={el?.name}>{el?.name}</option>;
+                    })}
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.category}

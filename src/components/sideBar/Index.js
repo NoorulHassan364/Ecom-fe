@@ -29,6 +29,11 @@ const adminRoutes = [
     icon: <FontAwesomeIcon icon={faBuildingColumns} />,
   },
   {
+    path: "/admin/categories",
+    name: "Categories",
+    icon: <FontAwesomeIcon icon={faCassetteTape} />,
+  },
+  {
     path: "/admin/addProduct",
     name: "Add Product",
     icon: <FontAwesomeIcon icon={faBarsProgress} />,

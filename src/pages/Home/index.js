@@ -2,13 +2,11 @@ import React, { useEffect } from "react";
 import {
   faArrowRight,
   faCartShopping,
+  faEye,
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarSharp, faTimer } from "@fortawesome/sharp-solid-svg-icons";
-import fb from "../../assets/images/fb.png";
-import insta from "../../assets/images/insta.jfif";
-import twitter from "../../assets/images/twitter.png";
 import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -73,7 +71,7 @@ const HomePage = () => {
                         <div className="innerTextProduct">
                           <span className="innerTextProductTitle">
                             <FontAwesomeIcon
-                              icon={faCartShopping}
+                              icon={faEye}
                               style={{ color: "darkorange" }}
                             />
                           </span>
@@ -94,44 +92,7 @@ const HomePage = () => {
           );
         })}
       </div>
-
-      <div class="getInTouch">
-        <div class="getInTouchMain">
-          <h2 style={{ fontSize: "3rem", fontWeight: 700 }}>Get in Touch </h2>
-          <div class="getIntouchPhone">
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h4 style={{ fontSize: "1.8rem" }}>Phone</h4>
-              <p style={{ fontSize: "1.3rem" }}>+(234)0000000000</p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Aspernatur, fugiat nihil!. Repellendus dolor quod tempora saepe.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h4 style={{ fontSize: "1.8rem" }}>Email</h4>
-              <p style={{ fontSize: "1.3rem" }}>contact@onlineshop.com</p>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <img
-                  src={fb}
-                  alt=""
-                  style={{ width: "2rem", height: "2rem" }}
-                />
-                <img
-                  src={insta}
-                  alt=""
-                  style={{ width: "2rem", height: "2rem" }}
-                />
-                <img
-                  src={twitter}
-                  alt=""
-                  style={{ width: "2rem", height: "2rem" }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

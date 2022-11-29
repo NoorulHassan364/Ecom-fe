@@ -1,6 +1,7 @@
 import {
   faArrowRight,
   faCartShopping,
+  faEye,
   faMinus,
   faPlus,
   faTag,
@@ -185,7 +186,7 @@ const ProductDetail = () => {
                           <div className="innerTextProduct">
                             <span className="innerTextProductTitle">
                               <FontAwesomeIcon
-                                icon={faCartShopping}
+                                icon={faEye}
                                 style={{ color: "darkorange" }}
                               />
                             </span>

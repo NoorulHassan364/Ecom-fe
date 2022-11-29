@@ -25,10 +25,16 @@ const Index = () => {
       .required("required")
       .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
     email: Yup.string().email().required("required"),
-    password: Yup.string().required("required").min(6, "At Least 6 digits"),
+    password: Yup.string()
+      .required("required")
+      .min(6, "At Least 6 digits")
+      .matches(/^(?=.*[a-z])/, "Must contain at least one lowercase character")
+      .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
+      .matches(/^(?=.*[0-9])/, "Must contain at least one number")
+      .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character"),
     phone: Yup.string()
-      .min(10, "At Least 11 digits")
-      .max(10, "Too long")
+      .min(9, "At Least 10 digits")
+      .max(9, "Too long")
       .required("required"),
     gender: Yup.string().required("Required"),
     address: Yup.string().required("Required"),
