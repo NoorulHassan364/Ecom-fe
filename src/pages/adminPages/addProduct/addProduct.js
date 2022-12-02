@@ -17,6 +17,7 @@ const AddProduct = () => {
     name: Yup.string().required("required"),
     price: Yup.string().required("required"),
     category: Yup.string().required("required"),
+    prodDescription: Yup.string().required("required"),
   });
 
   const handleFormikFileChange = (e, formik) => {
@@ -78,6 +79,7 @@ const AddProduct = () => {
             name: "",
             price: "",
             category: "",
+            prodDescription: "",
           }}
         >
           {(formik) => (
@@ -174,6 +176,33 @@ const AddProduct = () => {
                     </label>
                     <img style={{ width: "2rem" }} src={file} alt="" />
                   </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group
+                  style={{ width: "50%" }}
+                  className="mb-3"
+                  controlId="prodDescription"
+                >
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={10}
+                    value={formik.values.prodDescription}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isValid={
+                      formik.touched.prodDescription &&
+                      !formik.errors.prodDescription
+                    }
+                    isInvalid={
+                      formik.touched.prodDescription &&
+                      formik.errors.prodDescription
+                    }
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.prodDescription}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
 

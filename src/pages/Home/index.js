@@ -11,15 +11,20 @@ import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api";
+import { useContext } from "react";
+import { CartContext } from "../../contexts/cart";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
+  const [productsCopy, setProductsCopy] = useState(null);
+  const { search, setSearch } = useContext(CartContext);
 
   const getProducts = async () => {
     try {
       let res = await api.get(`/admin/products`);
       setProducts(res.data.data);
+      setProductsCopy(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -29,12 +34,31 @@ const HomePage = () => {
     getProducts();
   }, []);
 
+  const filterProducts = () => {
+    if (search == "" || !search) {
+      setProducts(productsCopy);
+    } else {
+      setProducts(
+        productsCopy?.filter((el) => el?.name?.toLowerCase().includes(search))
+      );
+    }
+  };
+  useEffect(() => {
+    filterProducts();
+  }, [search]);
+
   return (
     <div>
       <div className="shopCards">
         {products?.map((el) => {
           return (
-            <div style={{ position: "relative", display: "flex" }}>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                cursor: "pointer",
+              }}
+            >
               <div
                 className="product_card card grow"
                 style={{ width: "19rem" }}
@@ -44,6 +68,7 @@ const HomePage = () => {
                   src={el?.image}
                   style={{ width: "100%", height: "15rem" }}
                   alt="immg"
+                  onClick={() => navigate(`/product/${el?._id}`)}
                 />
                 <div className="card-body">
                   <div>
@@ -79,7 +104,11 @@ const HomePage = () => {
                             <FontAwesomeIcon
                               icon={faArrowRight}
                               onClick={() => navigate(`/product/${el?._id}`)}
-                              style={{ color: "green", fontSize: "1.6rem" }}
+                              style={{
+                                color: "green",
+                                fontSize: "1.6rem",
+                                cursor: "pointer",
+                              }}
                             />
                           </span>
                         </div>

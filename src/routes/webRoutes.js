@@ -15,6 +15,8 @@ import AdminRoutes from "./adminRoutes";
 import Logout from "./../pages/logout/logout";
 import ProductDetail from "../pages/productDetail/productDetail";
 import LandingPage from "../pages/landingPage";
+import PersonalInfo from "../pages/personalInfo/personalInfo";
+import CartItems from "../pages/cartItems/cartItems";
 export default function AppRoutes() {
   return (
     <React.Suspense fallback="Loading...">
@@ -72,6 +74,24 @@ export default function AppRoutes() {
           element={
             <ProtectedLandingPage>
               <ProductDetail />
+            </ProtectedLandingPage>
+          }
+        />
+        <Route
+          exact
+          path="/profile"
+          element={
+            <ProtectedLandingPage>
+              <PersonalInfo />
+            </ProtectedLandingPage>
+          }
+        />
+        <Route
+          exact
+          path="/cartItems"
+          element={
+            <ProtectedLandingPage>
+              <CartItems />
             </ProtectedLandingPage>
           }
         />

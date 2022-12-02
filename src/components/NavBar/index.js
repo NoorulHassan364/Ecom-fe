@@ -26,6 +26,7 @@ import { CartContext } from "../../contexts/cart";
 
 const NavBar = ({ user }) => {
   const { isLogin, signOut } = useContext(AuthContext);
+  const { search, setSearch } = useContext(CartContext);
   const { total } = useContext(CartContext);
 
   const [currUser, setUser] = useState(null);
@@ -55,10 +56,13 @@ const NavBar = ({ user }) => {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                style={{ width: "17rem" }}
               />
-              <Button variant="outline-dark" style={{ height: "2.3rem" }}>
+              {/* <Button variant="outline-dark" style={{ height: "2.3rem" }}>
                 Search
-              </Button>
+              </Button> */}
             </Form>
             <div className="nav_right">
               {isLogin ? (
@@ -73,13 +77,20 @@ const NavBar = ({ user }) => {
                     }
                     style={{ marginRight: "1rem" }}
                   >
+                    <NavDropdown.Item onClick={() => navigate("/products")}>
+                      Products
+                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => navigate("/profile")}>
+                      Profile
+                    </NavDropdown.Item>
                     <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                   </NavDropdown>
                   <div style={{ marginRight: "3rem", display: "flex" }}>
                     <div>
                       <FontAwesomeIcon
                         icon={faCartShopping}
-                        style={{ fontSize: "1.5rem" }}
+                        style={{ fontSize: "1.5rem", cursor: "pointer" }}
+                        onClick={() => navigate("/cartItems")}
                       />
                     </div>
                     <p className="cartTotal">{total}</p>
