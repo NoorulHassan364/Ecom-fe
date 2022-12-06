@@ -17,6 +17,8 @@ import ProductDetail from "../pages/productDetail/productDetail";
 import LandingPage from "../pages/landingPage";
 import PersonalInfo from "../pages/personalInfo/personalInfo";
 import CartItems from "../pages/cartItems/cartItems";
+import ForgotPassword from "../pages/ForgotPassword/forgotPassword";
+import Bookings from "../pages/bookings/bookings";
 export default function AppRoutes() {
   return (
     <React.Suspense fallback="Loading...">
@@ -92,6 +94,24 @@ export default function AppRoutes() {
           element={
             <ProtectedLandingPage>
               <CartItems />
+            </ProtectedLandingPage>
+          }
+        />
+        <Route
+          exact
+          path="/bookings"
+          element={
+            <ProtectedLandingPage>
+              <Bookings />
+            </ProtectedLandingPage>
+          }
+        />
+        <Route
+          exact
+          path="/forgotPassword/:id"
+          element={
+            <ProtectedLandingPage>
+              <ForgotPassword />
             </ProtectedLandingPage>
           }
         />

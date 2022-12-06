@@ -80,6 +80,9 @@ const NavBar = ({ user }) => {
                     <NavDropdown.Item onClick={() => navigate("/products")}>
                       Products
                     </NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => navigate("/bookings")}>
+                      My Bookings
+                    </NavDropdown.Item>
                     <NavDropdown.Item onClick={() => navigate("/profile")}>
                       Profile
                     </NavDropdown.Item>

@@ -1,10 +1,33 @@
 import React from "react";
 import { useContext } from "react";
 import { Table } from "react-bootstrap";
+import api from "../../api";
 import { CartContext } from "../../contexts/cart";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartItems = () => {
   const { setCartItems, items } = useContext(CartContext);
+
+  const onSubmit = async (values, resetForm) => {
+    try {
+      console.log("items", items);
+      let user = JSON.parse(localStorage.getItem("user"))._id;
+      const session = await api.post(`/product/checkout-session/${user}`, {
+        items,
+      });
+      const stripePromise = loadStripe(
+        "pk_test_51MC1oTLYdR3jRZzoD17ZjmevBW2CT1TAl0kvu8NcUn624rzhPwQlVrhv3kY60RH8IhKLKQ7nsOLPWmqNrtLcJrti00Gnmo1SGG"
+      );
+      const stripe = await stripePromise;
+      await stripe.redirectToCheckout({
+        sessionId: session.data.session.id,
+      });
+      // toast("Updated Successfully!", { type: "success" });
+      // navigate("/signin");
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
   return (
     <div
@@ -21,7 +44,7 @@ const CartItems = () => {
         <button
           type="button"
           className="header_checkoutBtn btn btn-primary"
-          // onClick={() => handleGetStarted()}
+          onClick={() => onSubmit()}
         >
           Proceed to Checkout
         </button>
