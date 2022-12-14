@@ -81,5 +81,18 @@
     display: flex;
     justify-content: space-evenly;
 }
+canvas{
+    width:50rem !important;
+    height: 28rem !important;
+    margin: 1rem;
+}
+
+.carousel-control-next-icon{
+    background-color: blue;
+}
+
+.carousel-control-prev-icon{
+    background-color: blue;
+}
 .grow { transition: all .2s ease-in-out; }
 .grow:hover { transform: scale(1.1); }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Table } from "react-bootstrap";
+import { Button, Col, Form, Modal, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +10,11 @@ import { useNavigate } from "react-router-dom";
 const AddProduct = () => {
   const [selectPic, setSelectPic] = useState(null);
   const [file, setFile] = useState(null);
+  const [moreImage, setMoreImage] = useState([]);
+  const [moreImageUrl, setMoreImageUrl] = useState([]);
   const [categories, setCategories] = useState(null);
+  const [productModal, setProductModal] = useState(false);
+  const [resProduct, setResProduct] = useState(null);
   const navigate = useNavigate();
 
   const validSchema = Yup.object().shape({
@@ -25,6 +29,17 @@ const AddProduct = () => {
     setSelectPic(file);
     setFile(URL.createObjectURL(e.target.files[0]));
   };
+  const handleMoreImagesChange = (e) => {
+    debugger;
+    let files = e.target.files;
+    debugger;
+    setMoreImage([files[0], files[1], files[2]]);
+    setMoreImageUrl([
+      URL.createObjectURL(e.target.files[0]),
+      URL.createObjectURL(e.target.files[1]),
+      URL.createObjectURL(e.target.files[2]),
+    ]);
+  };
 
   const onProductAddSubmit = async (values, resetForm) => {
     try {
@@ -38,9 +53,11 @@ const AddProduct = () => {
           }
         }
         formData.append("photo", selectPic);
-        await api.post(`/admin/product`, formData);
+        let res = await api.post(`/admin/product`, formData);
+        setResProduct(res.data.data);
+        setProductModal(true);
         resetForm();
-        navigate("/admin/products");
+        // navigate("/admin/products");
       } else {
         window.alert("Please Select the Image");
       }
@@ -53,6 +70,25 @@ const AddProduct = () => {
     try {
       let res = await api.get(`/admin/category`);
       setCategories(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleProductModalClose = () => {
+    setProductModal(false);
+    navigate("/admin/products");
+  };
+
+  const handleMoreiMgesSubmit = async () => {
+    try {
+      for (let i = 0; i < moreImage?.length; i++) {
+        let formData = new FormData();
+        formData.append("photo", moreImage[i]);
+
+        await api.patch(`/admin/product/images/${resProduct?._id}`, formData);
+      }
+      navigate("/admin/products");
     } catch (error) {
       console.log(error);
     }
@@ -218,6 +254,48 @@ const AddProduct = () => {
           )}
         </Formik>
       </div>
+
+      <Modal
+        show={productModal}
+        onHide={handleProductModalClose}
+        centered
+        size="md"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>More to Add More Images?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Form.Control
+              className="rounded-0"
+              type="file"
+              name="image"
+              id="collegImg"
+              // value={formik.values.image}
+              onChange={(e) => handleMoreImagesChange(e)}
+              style={{ display: "none" }}
+              multiple
+            />
+            <label for="collegImg">
+              <FontAwesomeIcon
+                icon={faArrowUpFromBracket}
+                style={{ fontSize: "2rem", marginRight: "1rem" }}
+              />
+            </label>
+            {moreImageUrl?.map((el) => {
+              return <img style={{ width: "2rem" }} src={el} alt="" />;
+            })}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleProductModalClose}>
+            Close
+          </Button>
+          <Button className="button" onClick={() => handleMoreiMgesSubmit()}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

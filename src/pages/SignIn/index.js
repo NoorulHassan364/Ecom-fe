@@ -44,7 +44,7 @@ const Index = () => {
         window.location = "/";
       } else {
         // navigate("/admin/addProduct");
-        window.location = "/admin/addProduct";
+        window.location = "/admin/analytics";
       }
     } catch (err) {
       toast("Invalid Email or Password!");
@@ -137,6 +137,7 @@ const Index = () => {
             </Form>
           )}
         </Formik>
+
         <Modal
           show={forgotPasswordModal}
           onHide={() => setForgotPasswordModal(false)}

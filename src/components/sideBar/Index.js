@@ -24,6 +24,11 @@ import {
 
 const adminRoutes = [
   {
+    path: "/admin/analytics",
+    name: "Analytics",
+    icon: <FontAwesomeIcon icon={faBuildingColumns} />,
+  },
+  {
     path: "/admin/products",
     name: "Products",
     icon: <FontAwesomeIcon icon={faBuildingColumns} />,

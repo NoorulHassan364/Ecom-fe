@@ -12,7 +12,7 @@ import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api";
 import usericon from "../../assets/images/userIcon.png";
@@ -68,7 +68,34 @@ const ProductDetail = () => {
     <Container>
       <Row style={{ padding: "2rem" }}>
         <Col md={6} sm={12}>
-          <img className="img-fluid" src={product?.image} alt="imgg" />
+          {/* <img className="img-fluid" src={product?.image} alt="imgg" /> */}
+
+          <Carousel data-aos="fade-right">
+            <Carousel.Item>
+              <img
+                style={{ height: "23rem" }}
+                className="d-block w-100"
+                src={product?.moreImages[0]}
+                alt="First slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                style={{ height: "23rem" }}
+                className="d-block w-100"
+                src={product?.moreImages[1]}
+                alt="Second slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                style={{ height: "23rem" }}
+                className="d-block w-100"
+                src={product?.moreImages[2]}
+                alt="Third slide"
+              />
+            </Carousel.Item>
+          </Carousel>
         </Col>
         <Col md={6} sm={12} style={{ padding: "2rem 2rem" }}>
           <h3 style={{ fontFamily: "monospace" }}>{product?.name}</h3>

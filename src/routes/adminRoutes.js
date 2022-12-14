@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import SideBar from "../components/sideBar/Index";
 import AddProduct from "../pages/adminPages/addProduct/addProduct";
 import AdminProducts from "../pages/adminPages/addProduct/adminProducts/adminProduct";
+import AdminAnalytics from "../pages/adminPages/adminAnalytics/adminAnalytics";
 import Categories from "../pages/adminPages/categories/categories";
 // import AdminShops from "../pages/adminPages/adminProducts/adminShops";
 
@@ -14,6 +15,7 @@ const AdminRoutes = () => {
           <Route exact path="/addProduct" element={<AddProduct />} />
           <Route exact path="/products" element={<AdminProducts />} />
           <Route exact path="/categories" element={<Categories />} />
+          <Route exact path="/analytics" element={<AdminAnalytics />} />
         </Routes>
       </SideBar>
     </React.Suspense>
