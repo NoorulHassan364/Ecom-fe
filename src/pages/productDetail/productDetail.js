@@ -157,7 +157,7 @@ const ProductDetail = () => {
           );
         })}
 
-        <div class="form-group mt-5" style={{ width: "41rem" }}>
+        <div class="form-group mt-5" style={{ width: "auto" }}>
           <label for="exampleFormControlTextarea1">Write a Review</label>
           <textarea
             class="form-control"
