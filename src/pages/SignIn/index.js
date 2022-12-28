@@ -18,10 +18,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faEyeSlash,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Index = () => {
   const { isLogin, loginSuccess } = useContext(AuthContext);
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
 
   const validSchema = Yup.object().shape({
@@ -103,17 +110,49 @@ const Index = () => {
               </Form.Group>
               <Form.Group controlId="password" as={Col} hasValidation>
                 <Form.Label className="form__label">Password</Form.Label>
-                <Form.Control
-                  className="p-3 rounded-0"
-                  type="password"
-                  name="password"
-                  placeholder="Enter Your Password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isValid={formik.touched.password && !formik.errors.password}
-                  isInvalid={formik.touched.password && formik.errors.password}
-                />
+                <div style={{ position: "relative", display: "flex" }}>
+                  <Form.Control
+                    className="p-3 rounded-0"
+                    type={passwordType}
+                    name="password"
+                    placeholder="Enter Your Password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isValid={formik.touched.password && !formik.errors.password}
+                    isInvalid={
+                      formik.touched.password && formik.errors.password
+                    }
+                  />
+
+                  {passwordType == "text" ? (
+                    <FontAwesomeIcon
+                      onClick={() => setPasswordType("password")}
+                      icon={faEyeSlash}
+                      style={{
+                        fontSize: "1rem",
+                        color: "grey",
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: "2%",
+                        marginTop: "0.7rem",
+                      }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      onClick={() => setPasswordType("text")}
+                      icon={faEye}
+                      style={{
+                        fontSize: "1rem",
+                        color: "grey",
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: "2%",
+                        marginTop: "0.7rem",
+                      }}
+                    />
+                  )}
+                </div>
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.password}
                 </Form.Control.Feedback>

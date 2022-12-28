@@ -61,12 +61,12 @@ const HomePage = () => {
             >
               <div
                 className="product_card card grow"
-                style={{ width: "19rem" }}
+                style={{ width: "23rem" }}
               >
                 <img
                   className="card-img-top"
                   src={el?.image}
-                  style={{ width: "100%", height: "15rem" }}
+                  style={{ width: "100%", height: "23rem" }}
                   alt="immg"
                   onClick={() => navigate(`/product/${el?._id}`)}
                 />

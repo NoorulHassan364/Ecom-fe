@@ -108,11 +108,11 @@ const AdminProducts = () => {
         {products?.map((el) => {
           return (
             <div style={{ position: "relative", display: "flex" }}>
-              <div className="college_card card" style={{ width: "19rem" }}>
+              <div className="college_card card" style={{ width: "23rem" }}>
                 <img
                   className="card-img-top"
                   src={el?.image}
-                  style={{ width: "100%", height: "15rem" }}
+                  style={{ width: "100%", height: "23rem" }}
                   alt="immg"
                 />
                 <div className="card-body">
@@ -202,6 +202,7 @@ const AdminProducts = () => {
               name: editProduct?.name,
               price: editProduct?.price,
               category: editProduct?.category,
+              prodDescription: editProduct?.prodDescription,
             }}
           >
             {(formik) => (
@@ -310,6 +311,29 @@ const AdminProducts = () => {
                     </div>
                   </Form.Group>
                 </Form.Row>
+                {/* <Form.Row> */}
+                <Form.Group className="mb-3" controlId="prodDescription">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={5}
+                    value={formik.values.prodDescription}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isValid={
+                      formik.touched.prodDescription &&
+                      !formik.errors.prodDescription
+                    }
+                    isInvalid={
+                      formik.touched.prodDescription &&
+                      formik.errors.prodDescription
+                    }
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.prodDescription}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                {/* </Form.Row> */}
               </Form>
             )}
           </Formik>

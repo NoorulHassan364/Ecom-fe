@@ -9,6 +9,7 @@ import {
   faBars,
   faBarsProgress,
   faBuildingColumns,
+  faChartSimple,
   faGraduationCap,
   faList,
   faPaperPlane,
@@ -26,7 +27,7 @@ const adminRoutes = [
   {
     path: "/admin/analytics",
     name: "Analytics",
-    icon: <FontAwesomeIcon icon={faBuildingColumns} />,
+    icon: <FontAwesomeIcon icon={faChartSimple} />,
   },
   {
     path: "/admin/products",
