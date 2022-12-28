@@ -31,7 +31,7 @@ const AdminAnalytics = () => {
     labels: labels,
     datasets: [
       {
-        label: "Products Added",
+        label: "Products Sales",
         backgroundColor: "blue",
         borderColor: "blue",
         data: productAna,
