@@ -71,30 +71,36 @@ const ProductDetail = () => {
           {/* <img className="img-fluid" src={product?.image} alt="imgg" /> */}
 
           <Carousel data-aos="fade-right">
-            <Carousel.Item>
-              <img
-                style={{ height: "23rem" }}
-                className="d-block w-100"
-                src={product?.moreImages[0]}
-                alt="First slide"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                style={{ height: "23rem" }}
-                className="d-block w-100"
-                src={product?.moreImages[1]}
-                alt="Second slide"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                style={{ height: "23rem" }}
-                className="d-block w-100"
-                src={product?.moreImages[2]}
-                alt="Third slide"
-              />
-            </Carousel.Item>
+            {product?.moreImages?.length > 0 ? (
+              <Carousel.Item>
+                <img
+                  style={{ height: "23rem" }}
+                  className="d-block w-100"
+                  src={product?.moreImages[0]}
+                  alt="First slide"
+                />
+              </Carousel.Item>
+            ) : null}
+            {product?.moreImages?.length > 1 ? (
+              <Carousel.Item>
+                <img
+                  style={{ height: "23rem" }}
+                  className="d-block w-100"
+                  src={product?.moreImages[1]}
+                  alt="Second slide"
+                />
+              </Carousel.Item>
+            ) : null}
+            {product?.moreImages?.length > 2 ? (
+              <Carousel.Item>
+                <img
+                  style={{ height: "23rem" }}
+                  className="d-block w-100"
+                  src={product?.moreImages[2]}
+                  alt="Third slide"
+                />
+              </Carousel.Item>
+            ) : null}
           </Carousel>
         </Col>
         <Col md={6} sm={12} style={{ padding: "2rem 2rem" }}>
@@ -212,7 +218,9 @@ const ProductDetail = () => {
                                 style={{ color: "blue" }}
                               />
                             </span>
-                            <span>{el?.reviews?.length}</span>
+                            <span style={{ textAlign: "center" }}>
+                              {el?.reviews?.length}
+                            </span>
                           </div>
                           <div className="innerTextProduct">
                             <span className="innerTextProductTitle">

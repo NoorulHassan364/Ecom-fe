@@ -17,12 +17,13 @@ import {
   faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+// importing styling for the sidebar
 import "./style.css";
 import {
   faCassetteTape,
   faSignalBars,
 } from "@fortawesome/sharp-solid-svg-icons";
-
+// declaring admin routes
 const adminRoutes = [
   {
     path: "/admin/analytics",
@@ -52,7 +53,7 @@ const adminRoutes = [
 ];
 
 const SideBar = ({ children }) => {
-  const navigate = useNavigate();
+  // declaring states to manage the component
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [finalRoutes, setFinalRoutes] = useState(null);
@@ -73,7 +74,7 @@ const SideBar = ({ children }) => {
       },
     },
   };
-
+  // closing and opening the SideBar
   const showAnimation = {
     hidden: {
       width: 0,
@@ -90,14 +91,16 @@ const SideBar = ({ children }) => {
       },
     },
   };
-
+  // this function will first time when this component will render
   useEffect(() => {
+    // geting user from the localStorage and seting to the state
     let user = JSON.parse(localStorage.getItem("user"));
     setFinalRoutes(adminRoutes);
     setUser(user);
   }, []);
   return (
     <>
+      {/* just html code for the sidebar */}
       <div className="main-container">
         <motion.div
           animate={{

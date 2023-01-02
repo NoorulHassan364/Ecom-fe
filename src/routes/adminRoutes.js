@@ -1,3 +1,4 @@
+// Importin all the admin pages
 import React, { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import SideBar from "../components/sideBar/Index";
@@ -9,8 +10,11 @@ import Categories from "../pages/adminPages/categories/categories";
 
 const AdminRoutes = () => {
   return (
+    //when navigating form 1 page to another take time then loading will show
     <React.Suspense fallback={"Loading.."}>
+      {/* adding sidebar  */}
       <SideBar>
+        {/* declaring all the routes for the admin  */}
         <Routes>
           <Route exact path="/addProduct" element={<AddProduct />} />
           <Route exact path="/products" element={<AdminProducts />} />

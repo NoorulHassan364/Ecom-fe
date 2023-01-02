@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
+// importing components form the bootstrap
 import { Button, Col, Form, Modal, Table } from "react-bootstrap";
+// formik and yup for the validation
 import * as Yup from "yup";
 import { Formik } from "formik";
+// imporing icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// importing backend url
 import api from "../../../api";
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
+// useNavigate to redirect to anoter page
 import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  // declaring states to manage add product component
   const [selectPic, setSelectPic] = useState(null);
   const [file, setFile] = useState(null);
   const [moreImage, setMoreImage] = useState([]);
@@ -16,23 +22,22 @@ const AddProduct = () => {
   const [productModal, setProductModal] = useState(false);
   const [resProduct, setResProduct] = useState(null);
   const navigate = useNavigate();
-
+  // validationSchema for add productModal form
   const validSchema = Yup.object().shape({
     name: Yup.string().required("required"),
     price: Yup.string().required("required"),
     category: Yup.string().required("required"),
     prodDescription: Yup.string().required("required"),
   });
-
+  // this will whenn we add a image into the product
   const handleFormikFileChange = (e, formik) => {
     let file = e.target.files[0];
     setSelectPic(file);
     setFile(URL.createObjectURL(e.target.files[0]));
   };
+  // thi will run when we add multiple images into the product
   const handleMoreImagesChange = (e) => {
-    debugger;
     let files = e.target.files;
-    debugger;
     setMoreImage([files[0], files[1], files[2]]);
     setMoreImageUrl([
       URL.createObjectURL(e.target.files[0]),
@@ -40,9 +45,10 @@ const AddProduct = () => {
       URL.createObjectURL(e.target.files[2]),
     ]);
   };
-
+  // this will run when when click on submit after fillin the product form
   const onProductAddSubmit = async (values, resetForm) => {
     try {
+      // adding the pics into the formdata so that backend can understand
       if (selectPic) {
         const formData = new FormData();
         for (const key in values) {
@@ -65,7 +71,7 @@ const AddProduct = () => {
       console.log(error);
     }
   };
-
+  // function for geting all the categories
   const getCategories = async () => {
     try {
       let res = await api.get(`/admin/category`);
@@ -74,14 +80,15 @@ const AddProduct = () => {
       console.log(error);
     }
   };
-
+  // this will run when we close the product modal
   const handleProductModalClose = () => {
     setProductModal(false);
     navigate("/admin/products");
   };
-
+  // this will run when we add more images and submit
   const handleMoreiMgesSubmit = async () => {
     try {
+      // adding all images into formdata so that backend will understand
       for (let i = 0; i < moreImage?.length; i++) {
         let formData = new FormData();
         formData.append("photo", moreImage[i]);
@@ -99,6 +106,7 @@ const AddProduct = () => {
   }, []);
 
   return (
+    // In the following lines we just using Simple HTML and bootstrap components and form similar like in signin page I explained to add the product
     <div className="container-fluid shadow college_container">
       <div style={{ display: "flex", alignItems: "center" }}>
         <h4 style={{ color: "grey" }}>Add Product</h4>

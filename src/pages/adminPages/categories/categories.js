@@ -1,36 +1,42 @@
+// importing the icons library
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusLarge } from "@fortawesome/sharp-solid-svg-icons";
 import React, { useEffect } from "react";
+// importin react bootstrap components
 import { Table, Button, Modal, Form, Col } from "react-bootstrap";
+// importing backend url
 import api from "../../../api";
+// formik and yup for the validation
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useState } from "react";
 
 const Categories = () => {
+  // declaring states to manage this component
   const [categoryModal, setcategoryModal] = useState(false);
   const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState(null);
 
+  // validationSchema
   const validSchema = Yup.object().shape({
     name: Yup.string().required("required"),
   });
-
+  // function will run when close the add category modal
   const handlecategoryModalClose = () => {
     setcategoryModal(false);
     setCategory(null);
   };
-
+  // this will run  when we click on edit category
   const handleEditCategory = (cat) => {
     setcategoryModal(true);
     setCategory(cat);
   };
-
+  // this will run when we click on add new category
   const handleAddCategory = (cat) => {
     setcategoryModal(true);
   };
-
+  // this will when we submit after ading category
   const handleAddCategorySubmit = async (values) => {
     if (category) {
       try {
@@ -50,7 +56,7 @@ const Categories = () => {
       }
     }
   };
-
+  // function to get all the categories form the backend
   const getCategories = async () => {
     try {
       let res = await api.get(`/admin/category`);
@@ -59,7 +65,7 @@ const Categories = () => {
       console.log(error);
     }
   };
-
+  // function to delete catogory
   const deleteCategory = async (id) => {
     try {
       let res = await api.delete(`/admin/category/${id}`);
@@ -74,6 +80,7 @@ const Categories = () => {
   }, []);
 
   return (
+    // In the following lines there are just simple HTML and bootstrap components to make categories page
     <div className="container-fluid shadow college_container">
       <div
         style={{

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+// importing components form the react-bootstrap
 import {
   Row,
   Col,
@@ -11,13 +12,18 @@ import {
   Modal,
   Spinner,
 } from "react-bootstrap";
+// importing formik and yup for the validation
 import { Formik } from "formik";
 import * as Yup from "yup";
+// importin our base  url for the backend
 import api from "../../api";
+// importin link to redirect to another page
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
+// importing the toastify notification css
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// imporitn icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -26,34 +32,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Index = () => {
+  // destructuring the AuthContext
   const { isLogin, loginSuccess } = useContext(AuthContext);
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
 
+  // making validations of signin form
   const validSchema = Yup.object().shape({
     email: Yup.string().email().required("required"),
     password: Yup.string().required("required").min(6, "At Least 6 digits"),
   });
-
+  // making validations of forgot passowrd
   const validSchemaForgot = Yup.object().shape({
     email: Yup.string().email().required("required"),
   });
-
+  // this function will run when user will click on signin
   const onSubmit = async (values) => {
     try {
+      // it is hitting the api of our backend and getting the response
       let res = await api.post("/auth/login", {
         ...values,
       });
+      // after geting the response this func is runing and it is taking token and user data coming from the backend
       loginSuccess(res.data.token, res.data.user);
       if (res.data.user.userType == "user") {
         // navigate("/");
+        // then we are navifating the user to home page after successfully logged in
         window.location = "/";
       } else {
         // navigate("/admin/addProduct");
+        // if the user will be admin then we navigating the admin to their dashboard
         window.location = "/admin/analytics";
       }
     } catch (err) {
+      // when user will enter the wrong email or passwor this will run
       toast("Invalid Email or Password!");
       console.log(err);
     }
@@ -61,11 +74,14 @@ const Index = () => {
 
   const onSubmitForgotPassword = async (values, resetForm) => {
     try {
+      // it is hitting the api of our backend and getting the response
       let res = await api.post("/auth/forgotPassword", {
         ...values,
       });
+      // sending notification
       toast("Please Check your email for the link!", { type: "success" });
       setForgotPasswordModal(false);
+      // empty form after submit
       resetForm();
     } catch (err) {
       toast("Invalid Email", { type: "error" });
@@ -75,13 +91,17 @@ const Index = () => {
 
   return (
     <section>
+      {/* using container coming from the react-bootstrap  */}
       <Container
         className="login_form"
         style={{ width: "25rem", padding: "3rem", marginTop: "2rem" }}
       >
         <p className="signup_heading2">Login to App!</p>
+        {/* using fromik for form validatons  */}
         <Formik
+          // declaring the function when user will click on onSubmit
           onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
+          // attaching the validation schema for validation
           validationSchema={validSchema}
           enableReinitialize
           initialValues={{
@@ -90,9 +110,12 @@ const Index = () => {
           }}
         >
           {(formik) => (
+            // using Form coming from the react-bootstrap
             <Form onSubmit={formik.handleSubmit} id="user-register">
               <Form.Group controlId="email" as={Col} hasValidation>
+                {/* Email inpur field label  */}
                 <Form.Label className="form__label">Email</Form.Label>
+                {/* Email input field  */}
                 <Form.Control
                   className="p-3 rounded-0"
                   type="text"
@@ -104,12 +127,15 @@ const Index = () => {
                   isValid={formik.touched.email && !formik.errors.email}
                   isInvalid={formik.touched.email && formik.errors.email}
                 />
+                {/* validation errors will show here  */}
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.email}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="password" as={Col} hasValidation>
+                {/* password input field label  */}
                 <Form.Label className="form__label">Password</Form.Label>
+                {/* input field for password  */}
                 <div style={{ position: "relative", display: "flex" }}>
                   <Form.Control
                     className="p-3 rounded-0"
@@ -124,7 +150,7 @@ const Index = () => {
                       formik.touched.password && formik.errors.password
                     }
                   />
-
+                  {/* creating eye button to view or hide the password  */}
                   {passwordType == "text" ? (
                     <FontAwesomeIcon
                       onClick={() => setPasswordType("password")}
@@ -153,6 +179,7 @@ const Index = () => {
                     />
                   )}
                 </div>
+                {/* password validation error will show here  */}
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.password}
                 </Form.Control.Feedback>
@@ -164,7 +191,7 @@ const Index = () => {
               >
                 Forgot Password?
               </Link>
-
+              {/* signin button  */}
               <Button
                 style={{ margin: "auto", width: "17rem", marginTop: "1rem" }}
                 className="button  button btn-block rounded-0"
@@ -176,7 +203,7 @@ const Index = () => {
             </Form>
           )}
         </Formik>
-
+        {/* creating modal for forgot passowrd form  */}
         <Modal
           show={forgotPasswordModal}
           onHide={() => setForgotPasswordModal(false)}

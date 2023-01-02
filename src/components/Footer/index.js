@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-
+// creating footer
 const Footer = () => {
   return (
     <div

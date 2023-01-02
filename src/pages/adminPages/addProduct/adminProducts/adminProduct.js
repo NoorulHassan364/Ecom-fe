@@ -1,4 +1,5 @@
 import React from "react";
+// importings icons
 import {
   faArrowRight,
   faArrowUpFromBracket,
@@ -10,35 +11,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarSharp, faTimer } from "@fortawesome/sharp-solid-svg-icons";
+// importing hooks
 import { useEffect } from "react";
 import { useState } from "react";
+// formik and yup for the validation
 import * as Yup from "yup";
 import { Formik } from "formik";
+// importing components from the bootstrap
 import { Button, Col, Form, Modal } from "react-bootstrap";
+// imporitng backend url
 import api from "../../../../api";
 
 const AdminProducts = () => {
+  // declaring states to store products
   const [products, setProducts] = useState(null);
   const [productModal, setProductModal] = useState(false);
-
+  // product image will store here
   const [selectPic, setSelectPic] = useState(null);
   const [file, setFile] = useState(null);
   const [editProduct, setEditProduct] = useState(null);
-
+  // product form validationSchema
   const validSchema = Yup.object().shape({
     name: Yup.string().required("required"),
     price: Yup.string().required("required"),
     category: Yup.string().required("required"),
   });
-
+  // after ading the image this function will run
   const handleFormikFileChange = (e, formik) => {
     let file = e.target.files[0];
     setSelectPic(file);
     setFile(URL.createObjectURL(e.target.files[0]));
   };
-
+  // function will run when add a new product
   const onProductAddSubmit = async (values, resetForm) => {
     try {
+      // if we select the pic the it is puting it to formdata so that backend will understand  it
       if (selectPic) {
         const formData = new FormData();
         for (const key in values) {
@@ -48,11 +55,13 @@ const AdminProducts = () => {
             if (values[key] !== null) formData.append(key, values[key]);
           }
         }
+        // sending request and geting response
         formData.append("photo", selectPic);
         await api.patch(`/admin/product/${editProduct?._id}`, formData);
       } else {
         await api.patch(`/admin/product/${editProduct?._id}`, values);
       }
+      // empty form after submit
       resetForm();
       handleProductModalClose();
       getProducts();
@@ -60,7 +69,7 @@ const AdminProducts = () => {
       console.log(error);
     }
   };
-
+  // function to get all the products form the backend
   const getProducts = async () => {
     try {
       let res = await api.get(`/admin/products`);
@@ -69,7 +78,7 @@ const AdminProducts = () => {
       console.log(error);
     }
   };
-
+  // function to delete product
   const handleDeleteProduct = async (id) => {
     try {
       await api.delete(`/admin/product/${id}`);
@@ -78,20 +87,20 @@ const AdminProducts = () => {
       console.log(error);
     }
   };
-
+  // function when we close product eidt modal
   const handleProductModalClose = () => {
     setProductModal(false);
   };
-
+  // function when we click on edit produt icon
   const handleEditProduct = (product) => {
     setProductModal(true);
     setEditProduct(product);
   };
-
   useEffect(() => {
     getProducts();
   }, []);
   return (
+    // In the following lines there are just bootstrap components and simple HTML for product cards
     <div className="container-fluid college_container shadow">
       <div
         style={{
@@ -108,11 +117,11 @@ const AdminProducts = () => {
         {products?.map((el) => {
           return (
             <div style={{ position: "relative", display: "flex" }}>
-              <div className="college_card card" style={{ width: "23rem" }}>
+              <div className="college_card card" style={{ width: "25rem" }}>
                 <img
                   className="card-img-top"
                   src={el?.image}
-                  style={{ width: "100%", height: "23rem" }}
+                  style={{ width: "100%", height: "25rem" }}
                   alt="immg"
                 />
                 <div className="card-body">
@@ -145,7 +154,9 @@ const AdminProducts = () => {
                             style={{ color: "blue" }}
                           />
                         </span>
-                        <span>{el?.reviews?.length}</span>
+                        <span style={{ textAlign: "center" }}>
+                          {el?.reviews?.length}
+                        </span>
                       </div>
                       <div className="innerTextProduct">
                         <span className="innerTextProductTitle">

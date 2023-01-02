@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+// importing components form the react-bootstrap
 import {
   Row,
   Col,
@@ -9,14 +10,17 @@ import {
   Tabs,
   Tab,
 } from "react-bootstrap";
+// importing formik and yup for the validation
 import { Formik } from "formik";
+// importin our base  url for the backend
 import * as Yup from "yup";
 import api from "../../api";
+// importin link to redirect to another page
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const navigate = useNavigate();
-
+  // making validations of signup
   const validSchema = Yup.object().shape({
     firstName: Yup.string()
       .required("required")
@@ -39,15 +43,17 @@ const Index = () => {
     gender: Yup.string().required("Required"),
     address: Yup.string().required("Required"),
   });
-
+  // this function will run when user will click on signup
   const onSubmit = async (values, resetForm) => {
     try {
+      // it is hitting the api of our backend and getting the response
       values.userType = "user";
       const res = await api.post("/auth/signup", {
         ...values,
         role: "user",
       });
       console.log("res", res);
+      // then we are navifating the user to sign page after successfully logged in
       navigate("/signIn");
     } catch (err) {
       console.log("err", err);
@@ -58,6 +64,7 @@ const Index = () => {
   return (
     <>
       <section className="section-signin">
+        {/* using container coming from the react-bootstrap  */}
         <Container>
           <div
             style={{ width: "35rem", margin: "auto", marginTop: "1rem" }}
@@ -66,8 +73,11 @@ const Index = () => {
             <p className="signup_heading2">
               Welcome Tell us a bit about your self!
             </p>
+            {/* using fromik for form validatons  */}
             <Formik
+              // declaring the function when user will click on onSubmit
               onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
+              // attaching the validation schema for validation
               validationSchema={validSchema}
               enableReinitialize
               initialValues={{
@@ -81,6 +91,7 @@ const Index = () => {
               }}
             >
               {(formik) => (
+                // using Form coming from the react-bootstrap
                 <Form onSubmit={formik.handleSubmit} id="user-register">
                   <Form.Row>
                     <Form.Group controlId="firstName" as={Col} hasValidation>

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+// imporitn useEffect hook
 import { useEffect } from "react";
+// importin table
 import { Table } from "react-bootstrap";
+// imporing backend url
 import api from "../../api";
 
 const Bookings = () => {
+  // state in which all the booking will store after coming from the backend
   const [items, setItems] = useState([]);
+  // function to get booking form the backend
   const getBookings = async () => {
     try {
+      // sending request and geting response for the bookings
       let user = JSON.parse(localStorage.getItem("user"))._id;
       const res = await api.get(`/product/bookings/${user}`);
       setItems(res.data.data);
@@ -14,11 +20,13 @@ const Bookings = () => {
       console.log("err", err);
     }
   };
+  // this will run first time when this page wil be render
   useEffect(() => {
     getBookings();
   }, []);
 
   return (
+    // In the follwing lines there is a just simple table coming from the bootstrap
     <div
       className="container shadow"
       style={{ padding: "1rem", marginTop: "1rem" }}

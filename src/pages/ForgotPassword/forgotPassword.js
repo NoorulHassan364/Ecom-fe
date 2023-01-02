@@ -1,14 +1,18 @@
 import React from "react";
+// importin components form the bootstrap
 import { Button, Col, Container, Form } from "react-bootstrap";
+// formik and yup fopr validation
 import { Formik } from "formik";
 import * as Yup from "yup";
 import api from "../../api";
+// link and navigate to redirect user to another pages
 import { Link, useNavigate, useParams } from "react-router-dom";
+// toat for Notification
 import { toast } from "react-toastify";
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
+  // validations for the forgot password
   const validSchema = Yup.object().shape({
     password: Yup.string()
       .required("required")
@@ -21,6 +25,7 @@ const ForgotPassword = () => {
       .required("required")
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
+  // funtion will run onclick submit forgot passowrd form
   const onSubmit = async (values, resetForm) => {
     try {
       const res = await api.patch(`/auth/updateUser/${id}`, {
@@ -34,6 +39,7 @@ const ForgotPassword = () => {
   };
   return (
     <section>
+      {/* we are just using the container and form coming form the bootstrap similar in the signin page I explained  */}
       <Container
         className="login_form"
         style={{ width: "25rem", padding: "3rem", marginTop: "2rem" }}

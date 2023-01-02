@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+// importing icons
 import {
   faArrowRight,
   faCartShopping,
@@ -8,18 +9,22 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarSharp, faTimer } from "@fortawesome/sharp-solid-svg-icons";
 import Footer from "../../components/Footer";
+// importing hooks
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+// importin base backend url
 import api from "../../api";
+// importing contexts
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart";
 
 const HomePage = () => {
+  // declaring states
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
   const [productsCopy, setProductsCopy] = useState(null);
   const { search, setSearch } = useContext(CartContext);
-
+  // funtionction will run and take all the products from the backend and set into the state
   const getProducts = async () => {
     try {
       let res = await api.get(`/admin/products`);
@@ -29,11 +34,12 @@ const HomePage = () => {
       console.log(error);
     }
   };
-
+  // this will run first when component will render
   useEffect(() => {
     getProducts();
   }, []);
 
+  // funcion for handling search bar
   const filterProducts = () => {
     if (search == "" || !search) {
       setProducts(productsCopy);
@@ -49,6 +55,7 @@ const HomePage = () => {
 
   return (
     <div>
+      {/* The following lines are just html for product card   */}
       <div className="shopCards">
         {products?.map((el) => {
           return (
@@ -61,12 +68,12 @@ const HomePage = () => {
             >
               <div
                 className="product_card card grow"
-                style={{ width: "23rem" }}
+                style={{ width: "25rem" }}
               >
                 <img
                   className="card-img-top"
                   src={el?.image}
-                  style={{ width: "100%", height: "23rem" }}
+                  style={{ width: "100%", height: "25rem" }}
                   alt="immg"
                   onClick={() => navigate(`/product/${el?._id}`)}
                 />
@@ -91,7 +98,9 @@ const HomePage = () => {
                               style={{ color: "blue" }}
                             />
                           </span>
-                          <span>{el?.reviews?.length}</span>
+                          <span style={{ textAlign: "center" }}>
+                            {el?.reviews?.length}
+                          </span>
                         </div>
                         <div className="innerTextProduct">
                           <span className="innerTextProductTitle">
