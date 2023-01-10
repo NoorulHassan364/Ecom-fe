@@ -27,6 +27,7 @@ const AddProduct = () => {
     name: Yup.string().required("required"),
     price: Yup.string().required("required"),
     category: Yup.string().required("required"),
+    stock: Yup.string().required("required"),
     prodDescription: Yup.string().required("required"),
   });
   // this will whenn we add a image into the product
@@ -123,6 +124,7 @@ const AddProduct = () => {
             name: "",
             price: "",
             category: "",
+            stock: "",
             prodDescription: "",
           }}
         >
@@ -223,6 +225,25 @@ const AddProduct = () => {
                 </Form.Group>
               </Form.Row>
               <Form.Row>
+                <Form.Group controlId="price" as={Col} hasValidation>
+                  <Form.Label className="form__label">
+                    Available Stock
+                  </Form.Label>
+                  <Form.Control
+                    className="p-3 rounded-0"
+                    type="number"
+                    name="stock"
+                    placeholder="stock"
+                    value={formik.values.stock}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isValid={formik.touched.stock && !formik.errors.stock}
+                    isInvalid={formik.touched.stock && formik.errors.stock}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.stock}
+                  </Form.Control.Feedback>
+                </Form.Group>
                 <Form.Group
                   style={{ width: "50%" }}
                   className="mb-3"

@@ -104,7 +104,10 @@ const ProductDetail = () => {
           </Carousel>
         </Col>
         <Col md={6} sm={12} style={{ padding: "2rem 2rem" }}>
-          <h3 style={{ fontFamily: "monospace" }}>{product?.name}</h3>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h3 style={{ fontFamily: "monospace" }}>{product?.name}</h3>
+            <span>Available: {product?.stock}</span>
+          </div>
           <p style={{ color: "brown" }}>({product?.reviews?.length}) Ratings</p>
           <h2 style={{ marginTop: "2rem" }}>${product?.price}</h2>
           <div style={{ display: "flex", marginTop: "2rem" }}>
@@ -127,7 +130,9 @@ const ProductDetail = () => {
               <FontAwesomeIcon
                 icon={faPlus}
                 style={{ color: "green", fontSize: "1.5rem" }}
-                onClick={() => setTotal(total + 1)}
+                onClick={() => {
+                  setTotal(total + 1 > product.stock ? total : total + 1);
+                }}
               />
             </div>
           </div>
